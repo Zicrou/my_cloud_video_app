@@ -14,7 +14,7 @@ class VideoController extends Controller
 	public function index()
 	{
 
-   		 return response()->json(Video::all());
+   		 return response()->json(Video::withCount('comments')->get();
 	
 	}
 
