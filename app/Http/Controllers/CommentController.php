@@ -26,22 +26,24 @@ class CommentController extends Controller
 			->get();
     	}
 
-   	public function store(Request $request)
+   	public function store(Request $request, Video $video)
    	{
 		
 		$validated = $request->validate([
 			
-			'video_id' => ['required', 'exists:videos,id'],
-        		
-        		
-			'user_id' => ['required'],
-
-			
 			'comment' => ['required', 'string'],
    		 ]);
+	
+		$validated['user_id'] = $request->user()->id;
 
 
-    		return  Comment::create($validated);
-			
+    		return  $comment = Comment::create([
+   	  	        'video_id' => $video->id,
+        		'user_id' => $request->user()->id,
+        		'comment' => $validated['content'],
+    		]);
+
+		return response()->json($comment, 201);		
+
     	}
 }
