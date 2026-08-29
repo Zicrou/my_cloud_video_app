@@ -33,6 +33,8 @@
 		Route::post('/videos/{videoId}/likes', [LikeController::class, 'toggle']);
 		
 		Route::post('/logout', [AuthController::class, 'logout']);
+		
+		Route::post('videos/{video}/comments', [CommentController::class, 'store']);
 
 	});
 	Route::get('/videos', function () {
@@ -42,6 +44,5 @@
 	
 	Route::get('/videos/{video}/comments', [CommentController::class, 'index']);
 	
-	Route::post('videos/{video}/comments', [CommentController::class, 'store']);
 
 	Route::get('/videos/{video}/likes', [LikeController::class, 'count']);
