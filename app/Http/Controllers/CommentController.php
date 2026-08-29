@@ -28,7 +28,7 @@ class CommentController extends Controller
 
    	public function store(Request $request, Video $video)
    	{
-		
+				
 		$validated = $request->validate([
 			
 			'comment' => ['required', 'string'],
@@ -40,7 +40,7 @@ class CommentController extends Controller
     		return  $comment = Comment::create([
    	  	        'video_id' => $video->id,
         		'user_id' => $request->user()->id,
-        		'comment' => $validated['content'],
+        		'comment' => $validated['comment'],
     		]);
 
 		return response()->json($comment, 201);		
