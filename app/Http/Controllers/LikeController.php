@@ -66,4 +66,19 @@ class LikeController extends Controller
             		'likes_count' => $video->likes()->count(),
        		 ]);
    	 }
+
+	public function show(Request $request, Video $video)
+	{
+    		$liked = Like::where('user_id', $request->user()->id)
+       		
+		 ->where('video_id', $video->id)
+        	
+		->exists();
+
+    		return response()->json([
+        	
+			'liked' => $liked,
+    		
+		]);
+	}
 }
