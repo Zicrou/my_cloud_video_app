@@ -2,6 +2,8 @@
 
 	use Illuminate\Support\Facades\Route;
 
+	use Illuminate\Http\Request;	
+
 	use App\Models\Video;
 
 	use App\Http\Controllers\VideoController;
@@ -35,6 +37,14 @@
 		Route::post('/logout', [AuthController::class, 'logout']);
 		
 		Route::post('videos/{video}/comments', [CommentController::class, 'store']);
+	
+		Route::get('/user', function (Request $request) {
+
+        		return $request->user();
+
+    		});
+
+		Route::get('/videos/{video}/likes/isLiked', [LikeController::class, 'show']);
 
 	});
 	Route::get('/videos', function () {
