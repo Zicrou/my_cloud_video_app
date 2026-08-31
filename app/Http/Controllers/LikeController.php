@@ -13,14 +13,13 @@ use \App\Models\Video;
 class LikeController extends Controller
 {
 		
-	public function toggle(Request $request)
+	public function toggle(Request $request, Video $video)
     	{
-	
 
 		$user = $request->user();
 
-       		 $like = Like::where('video_id', $request->videoId
-)
+       		 $like = Like::where('video_id', $video->id)
+
            		->where('user_id', $user->id)
             	
 			->first();
@@ -35,7 +34,7 @@ class LikeController extends Controller
 
         	    Like::create([
 
-                	'video_id' => $request->videoId,
+                	'video_id' => $video->id,
 
                 	'user_id' => $user->id,
 
@@ -44,8 +43,6 @@ class LikeController extends Controller
             		$liked = true;
 
         	}
-		
-		$video = Video::find($request->videoId);
 
         	return response()->json([
 
@@ -58,15 +55,6 @@ class LikeController extends Controller
     	}
 
 
-
-	public function count(Video $video)
-    	{	
-        	return response()->json([
-            		'video_id' => $video->id,
-            		'likes_count' => $video->likes()->count(),
-       		 ]);
-   	 }
-
 	public function show(Request $request, Video $video)
 	{
     		$liked = Like::where('user_id', $request->user()->id)
@@ -75,10 +63,13 @@ class LikeController extends Controller
         	
 		->exists();
 
+		$likesCount = Like::where('video_id', $video->id)->count();
+
     		return response()->json([
         	
 			'liked' => $liked,
-    		
+    	
+			'likes_count' => $likesCount,	
 		]);
 	}
 }
