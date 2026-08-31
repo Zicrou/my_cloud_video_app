@@ -32,7 +32,7 @@
 
 	Route::middleware('auth:sanctum')->group(function () {
 
-		Route::post('/videos/{videoId}/likes', [LikeController::class, 'toggle']);
+		Route::post('/videos/{video}/likes', [LikeController::class, 'toggle']);
 		
 		Route::post('/logout', [AuthController::class, 'logout']);
 		
@@ -44,15 +44,17 @@
 
     		});
 
-		Route::get('/videos/{video}/likes/isLiked', [LikeController::class, 'show']);
+		Route::get('/videos/{video}/likes', [LikeController::class, 'show']);
 
 	});
+
 	Route::get('/videos', function () {
+
     		return \App\Models\Video::withCount('likes')->withCount('comments')->get();
+
 	});
 
 	
 	Route::get('/videos/{video}/comments', [CommentController::class, 'index']);
 	
 
-	Route::get('/videos/{video}/likes', [LikeController::class, 'count']);
