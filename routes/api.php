@@ -46,15 +46,16 @@
 
 		Route::get('/videos/{video}/likes', [LikeController::class, 'show']);
 
+		Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
+		
 	});
 
-	Route::get('/videos', function () {
+		Route::get('/videos', function () {
+	
+    			return \App\Models\Video::withCount('likes')->withCount('comments')->get();
 
-    		return \App\Models\Video::withCount('likes')->withCount('comments')->get();
-
-	});
+		});
 
 	
 	Route::get('/videos/{video}/comments', [CommentController::class, 'index']);
 	
-
