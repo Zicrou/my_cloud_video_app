@@ -61,7 +61,7 @@ class CommentController extends Controller
 		
 		}
 
-    		return  $comment = Comment::create([
+    		$comment = Comment::create([
    	  	
 		        'video_id' => $video->id,
         	
@@ -73,6 +73,8 @@ class CommentController extends Controller
 		
 		]);
 
+		$comment->load('user');
+		
 		return response()->json($comment, 201);		
 
     	}
@@ -89,6 +91,7 @@ class CommentController extends Controller
 			], 403);
 
 		}
+
 
     		$comment->delete();
 
