@@ -14,9 +14,8 @@ class Video extends Model
 	protected $fillable = [
 
 		'title',
-
 		'url',
-
+		'user_id',
 	];
 
 	public function likes()
