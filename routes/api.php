@@ -14,6 +14,11 @@
 
 	use App\Http\Controllers\AuthController;
 
+	use App\Http\Controllers\FollowController;
+
+	use App\Http\Controllers\UserController;
+
+
 	Route::get('/test', function () {
 
     		return response()->json([
@@ -31,31 +36,39 @@
 	Route::get('/videos', [VideoController::class, 'index']);
 
 	Route::middleware('auth:sanctum')->group(function () {
-
+		
+			// Videos
 		Route::post('/videos/{video}/likes', [LikeController::class, 'toggle']);
 		
 		Route::post('/logout', [AuthController::class, 'logout']);
 		
 		Route::post('videos/{video}/comments', [CommentController::class, 'store']);
 	
-		Route::get('/user', function (Request $request) {
-
-        		return $request->user();
-
-    		});
+		Route::get('/users/{user}/videos', [UserController::class, 'videos']);
 
 		Route::get('/videos/{video}/likes', [LikeController::class, 'show']);
-
+		Route::post('/videos', [VideoController::class, 'store']);
+		
+			// Comments
 		Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
 		
+			// Follow
+		Route::post('/users/{user}/follow', [FollowController::class, 'follow']);
+    		
+		Route::delete('/users/{user}/follow', [FollowController::class, 'unfollow']);
+
+		Route::get('/users/{user}/followers',[FollowController::class, 'followers']);
+
+    		Route::get('/users/{user}/following', [FollowController::class, 'following']);
+		
+		Route::get('/users/{user}/follow-status',[FollowController::class, 'status']);
+		
+			// Users
+
+		Route::get('/users/{user}', [UserController::class, "show"]);
+
+		Route::get('/user', function (Request $request) {return $request->user();});
 	});
 
-		Route::get('/videos', function () {
-	
-    			return \App\Models\Video::withCount('likes')->withCount('comments')->get();
-
-		});
-
-	
 	Route::get('/videos/{video}/comments', [CommentController::class, 'index']);
 	
