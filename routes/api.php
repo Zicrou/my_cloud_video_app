@@ -47,7 +47,12 @@
 		Route::get('/users/{user}/videos', [UserController::class, 'videos']);
 
 		Route::get('/videos/{video}/likes', [LikeController::class, 'show']);
+
 		Route::post('/videos', [VideoController::class, 'store']);
+		
+		Route::delete( '/videos/{video}', [VideoController::class, 'destroy']);
+		
+		Route::put( '/videos/{video}', [VideoController::class, 'update']);
 		
 			// Comments
 		Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
