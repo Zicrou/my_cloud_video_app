@@ -17,10 +17,15 @@ class VideoController extends Controller
 		->latest()
 		->get();
 
-	    $videos->transform(function ($video) {
-		$video->url = Storage::disk('s3')->temporaryUrl(
+	    $cloudFrontUrl = rtrim(
+		env('AWS_CLOUDFRONT_URL'),
+		'/'
+	    );
+
+	    $videos->transform(function ($video) use ($cloudFrontUrl) {
+		$video->url = $cloudFrontUrl . '/' . ltrim(
 		    $video->url,
-		    now()->addMinutes(30)
+		    '/'
 		);
 
 		return $video;
