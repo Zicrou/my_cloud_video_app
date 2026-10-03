@@ -26,4 +26,3 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 env.before-rds
-.env.example
