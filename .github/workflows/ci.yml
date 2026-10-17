@@ -37,3 +37,6 @@ jobs:
 
       - name: Run Laravel tests
         run: php artisan test
+
+      - name: Build Docker image
+        run: docker build -t my-cloud-video-app:ci .
